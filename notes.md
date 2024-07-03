@@ -14,6 +14,7 @@ TP, 2024-06-30
 * table comparing tunings
 * harmonics
 * play sound
+* Use package extensions
 
 # Tunings
 
@@ -32,6 +33,8 @@ TP, 2024-06-30
 ## Limit
 
 * just = 5 limit
+
+## TODO Mean tone
 
 # Data Structures
 
@@ -59,6 +62,25 @@ end
 
 plot(tet12)
 ```
+# Playing
+
+* MIDI.jl defines Note(pitch, velocity, position, duration, channel = 0)
+* pitch is an integer.
+* MIDI.jl fixes pitch_to_name(60) == "C4"
+
+Given TuningSystem and a root frequency, we can map pitches to frequencies.
+
+Note: MIDI.Note
+Tone: frequency, duration, synthesizer?
+Sound: Tone, synthesizer
+
+
+
+# TODO
+
+* quantize(note, tuning): find closest pitch-class in tuning to given note
+* play tomes
+* plot scores in sec, log frequency scale
 
 # References
 
@@ -69,6 +91,7 @@ plot(tet12)
 * https://johncarlosbaez.wordpress.com/2024/01/11/well-temperaments-part-1/
 * https://johncarlosbaez.wordpress.com/2023/10/13/perfect-fifths-in-equal-tempered-scales/. Why 12 tones?
 * https://en.wikipedia.org/wiki/Harmonic_seventh Harmonic 7
+* https://en.wikipedia.org/wiki/Just_intonation I, IV, V as 4:5:6
 
 ## Other impelmentations
 * https://github.com/nathanday/Intonation?tab=readme-ov-file
@@ -82,3 +105,4 @@ plot(tet12)
 * https://www.animations.physics.unsw.edu.au/jw/frequency-pitch-sound.htm pitch
 * https://newt.phys.unsw.edu.au/jw/notes.html note numbers
 * https://inspiredacoustics.com/en/MIDI_note_numbers_and_center_frequencies
+* Subharmonics: https://en.wikipedia.org/wiki/Undertone_series

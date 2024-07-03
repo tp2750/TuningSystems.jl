@@ -149,6 +149,7 @@ This gives 12 almost equally spaced tones using fractions.
 # Just intonation
 
 * Use "simple" fractions (5-limit).
+* I, IV, V are all in ratios: 4:5:6
 
 ``` julia
 DataFrame(just)
@@ -274,6 +275,15 @@ What is 3:2:1? Ocave + fifth. Play equal temper approximation.
 - 5:4:3: inversion of major triad
 - 6:5:4: major triad
 - 6:5:4:3 major triad
+
+In just intonation the 3 major triads: tonica, dominant, subdominant (I, IV, V) all have this ratio:
+
+  --- IV---
+          --- I ---
+ 		         --- V ---
+  F   A   C   E   G   B   D
+ 2/3 5/6 1/1 5/4 3/2 15/8 9/4
+   4:5 5:6 4:5 5:6 4:5  5:6
 
 # Sevenths harmonics
 

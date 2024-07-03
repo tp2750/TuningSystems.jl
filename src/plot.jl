@@ -35,3 +35,6 @@ end
     end
 end
 
+## Type recipe See https://daschw.github.io/recipes/
+@recipe f(::Type{Sound}, s::Sound) = s.func
+@recipe f(::Type{Tone}, t::Tone) = sound(t).func
