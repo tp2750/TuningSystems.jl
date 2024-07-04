@@ -74,12 +74,58 @@ Note: MIDI.Note
 Tone: frequency, duration, synthesizer?
 Sound: Tone, synthesizer
 
+# Playing again
+2024-07-04
 
+Note: pich_number; duration=1, volume=1
+Tone: frequency; duration, volume
+Sound: function; duration, (frequency)
+
+note(::String)::Note
+note(::Number)::Note
+tone(::Note; tuning=TUNINGSYSTEM||tet12, tonica_number=60, tonica_frequency=440)
+sound(::Tone; synth=sin, tuning=missing) ## non-missing tuning propagates to tone
+sound(::Vector{Tone})::Sound = chord ## sum functions
+#sound(::Note) = sound(tone(::Note))
+#sound(::Vector{Note}) = sound(tone(Vector{Note}))
+#sound(::Vector{Sound})::Sound = chord ## sum functions
+play(::Sound; bpm=60, tuning=missing, synth=missing) ## sample. Non-missing tuning propagates to tone, non-missing synth propagates to sound
+play(::Vector{Sound}) ## concatenate samples
+#play(::Tone)
+#play(::Vector{Tone})
+n=note
+t=tone
+s=sound
+set_tuning ## sets environment variable TUNINGSYSTEM
+set_synth ## set env TUNINGSYSTEM_SYNTH
+
+Now 
+* play(s(["C", "E", "G"])) plays C-major chord
+* play(s.(["C", "E", "G"])) plays triad as successive tones
+* play(sound(lyr"c4 e g"C4; tuning=just))
+
+Implementation strategy:
+* Start simple: note(::Number), note(::String), tone(::Note; tuning, root_number, root_frequency), sound(::Tone; synth), sound(::Vector{Tone}), play(::Sound; bpm), play(::Vector{Sound})
+* Lilypond string macro giving Vector{Note}
+
+Gives 
+* play(s(t.(lyr"c e g"C4))) ## chrod
+* play(s.(t.(lyr"c e g"C4))) ## arpegiated
+
+
+## TODO
+* Is there a macro that "promotes" String, Number, Note to sound?
+* If Unitful loaded: sound(440u"Hz")
+* string macro for lilypond relative notation. lyr"c4 e2 g4"C4 == [note("C4"), note("E4"; duration=2), note("G4")]
+* transpose
+* mix, scale
+* effects like chorus, reverbe: use sampled signals and DSP library
+* Play adaptively in just intonation
+* Wohl-temparierte clavier: play in different tunings
 
 # TODO
 
 * quantize(note, tuning): find closest pitch-class in tuning to given note
-* play tomes
 * plot scores in sec, log frequency scale
 
 # References
