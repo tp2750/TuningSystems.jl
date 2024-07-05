@@ -5,12 +5,23 @@ struct TuningSystem{T}
     names::Vector{String}
 end
 
+import Base.length
+Base.length(t::TuningSystem) = length(t.scalings)
+
 tuning(l::Int,v::Vector{T}, n::Symbol, s::Vector{String}) where T <: Number = TuningSystem(l,v,n,s)
 tuning(v::Vector{T}, n::Symbol, s::Vector{String}) where T <: Number = TuningSystem(length(v),v,n,s)
 tuning(v::Vector{T}, n::Symbol) where T <: Number = TuningSystem(length(v), v, n, string.(v))
 tuning(v::Vector{T}) where T <: Number = TuningSystem(length(v), v, :tuning, string.(v))
 
-
+function equal_tempered(n) ## n TET n Tone Equal Temperement. n EDO Even Divisions of Octave
+    scalings = [(2^(1/n))^x for x in 0:(n-1)]
+    if n == 12
+        names = ["C","C#","D", "D#", "E", "F", "F#", "G", "G#", "A", "A#","B"]
+    else
+        names = string(Int(round(cents.(scalings))))
+    end
+    tuning(n, scalings, string(n," TET"), names)
+end
 
 tet12 = tuning([(2^(1/12))^x for x in 0:11],:tet12, ["C","C#","D", "D#", "E", "F", "F#", "G", "G#", "A", "A#","B"])
 pythagorean13 = tuning(unique(sort([pitch_class.([(3//2)^x for x in 0:6]); pitch_class.([(2//3)^x for x in 0:6])])),:pyth13)
