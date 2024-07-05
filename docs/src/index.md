@@ -61,6 +61,32 @@ using TuningSystems
 play(s(440))
 ```
 
+# Playing in Tune
+
+n: Note, t: Tone, s: Sound.
+
+``` julia
+play(s(t.(n.(split("C E G")),tuning=tet12)), bpm=30)
+play(s(t.(n.(split("C E G")),tuning=just)), bpm=30)
+```
+
+``` julia
+plot(s(t.(n.(split("C E G")),tuning=just)), xlim=(0,1/65.4), label="just", title="C major")
+plot!(s(t.(n.(split("C E G")),tuning=tet12)), xlim=(0,1/65.4), label="12tet")
+
+```
+
+![C major](img/c-major.png)
+
+Shorthand
+
+tns = tone.(note.(split()))
+
+``` julia
+play(s.(tns("C E G",tuning=just)), bpm=60)
+play(s(tns("C E G",tuning=just)), bpm=20)
+
+```
 
 ```@index
 ```

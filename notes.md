@@ -109,11 +109,12 @@ Implementation strategy:
 * Lilypond string macro giving Vector{Note}
 
 Gives 
-* play(s(t.(lyr"c e g"C4))) ## chrod
+* play(s(t.(lyr"c e g"C4))) ## chord
 * play(s.(t.(lyr"c e g"C4))) ## arpegiated
 
 
 ## TODO
+* function equal_tempered
 * Is there a macro that "promotes" String, Number, Note to sound?
 * If Unitful loaded: sound(440u"Hz")
 * string macro for lilypond relative notation. lyr"c4 e2 g4"C4 == [note("C4"), note("E4"; duration=2), note("G4")]
@@ -135,9 +136,10 @@ Gives
 * https://johncarlosbaez.wordpress.com/2023/10/30/just-intonation-part-1/
 * https://johncarlosbaez.wordpress.com/2023/12/13/quarter-comma-meantone-part-1/
 * https://johncarlosbaez.wordpress.com/2024/01/11/well-temperaments-part-1/
-* https://johncarlosbaez.wordpress.com/2023/10/13/perfect-fifths-in-equal-tempered-scales/. Why 12 tones?
+* https://johncarlosbaez.wordpress.com/2023/10/13/perfect-fifths-in-equal-tempered-scales/. Why 12 tones? Other octave divisions: 2, 5, 12, 41, 53, 306, ...
 * https://en.wikipedia.org/wiki/Harmonic_seventh Harmonic 7
 * https://en.wikipedia.org/wiki/Just_intonation I, IV, V as 4:5:6
+* https://en.wikipedia.org/wiki/Equal_temperament 2024-07-05. has 19,23, 24, 26, ...
 
 ## Other impelmentations
 * https://github.com/nathanday/Intonation?tab=readme-ov-file

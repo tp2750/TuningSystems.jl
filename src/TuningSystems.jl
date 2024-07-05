@@ -1,15 +1,14 @@
 module TuningSystems
 
-using Plots
 
 include("functions.jl")
 export pitch_class, cents
 
 include("tunings.jl")
-export tuning, equal, tet12, pythagorean, just, harmonics, subharmonics
+export tuning, equal, tet12, pythagorean, just, harmonics, subharmonics, equal_tempered
 
 include("play.jl")
-export tone, t, sound, s, play, save_wav, sample
+export note, n, tone, t, sound, s, play, save_wav, sample, tns
 
 include("plot.jl")
 export plot_tuning

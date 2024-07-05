@@ -23,7 +23,7 @@ function equal_tempered(n) ## n TET n Tone Equal Temperement. n EDO Even Divisio
     tuning(n, scalings, string(n,"TET"), names)
 end
 
-tet12 = tuning([(2^(1/12))^x for x in 0:11],"12 TET", ["C","C#","D", "D#", "E", "F", "F#", "G", "G#", "A", "A#","B"])
+edo12 = tet12 = equal_tempered(12) ## tuning([(2^(1/12))^x for x in 0:11],"12 TET", ["C","C#","D", "D#", "E", "F", "F#", "G", "G#", "A", "A#","B"])
 pythagorean13 = tuning(unique(sort([pitch_class.([(3//2)^x for x in 0:6]); pitch_class.([(2//3)^x for x in 0:6])])),"Pyth13")
 pythagorean = tuning(unique(sort([pitch_class.([(3//2)^x for x in 0:6]); pitch_class.([(2//3)^x for x in 0:5])])),"Pythagorean") ##  We usually remove the diminished 5th, https://johncarlosbaez.wordpress.com/2023/10/07/pythagorean-tuning/
 pyth2 = tuning(pitch_class.([(3//2)^x for x in -6:6]),"Pyth sym") ## Symmetric pythagorean
