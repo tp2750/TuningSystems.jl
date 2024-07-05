@@ -114,7 +114,7 @@ Gives
 
 
 ## TODO
-* function equal_tempered
+* DONE function equal_tempered
 * Is there a macro that "promotes" String, Number, Note to sound?
 * If Unitful loaded: sound(440u"Hz")
 * string macro for lilypond relative notation. lyr"c4 e2 g4"C4 == [note("C4"), note("E4"; duration=2), note("G4")]
@@ -128,6 +128,41 @@ Gives
 
 * quantize(note, tuning): find closest pitch-class in tuning to given note
 * plot scores in sec, log frequency scale
+
+# Peroid of combined signals
+
+## Analytic
+
+Ref: 
+https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.utdallas.edu/~raja1/EE%25203302%2520Fall%252016/Lecture%2520Notes/Determining%2520the%2520Periodicity%2520of%2520the%2520Sum%2520of%2520Periodic%2520Signals.doc&ved=2ahUKEwib3LrUjZCHAxWQgv0HHQ4pBCsQFnoECBAQAw&usg=AOvVaw2C21kIPpoJfQJ2q87dEovO
+
+Determining the periodicity of the sum of periodic signals
+
+Let x(t) = x1(t) +  x2(t) + … xN(t) where xj(t) is a periodic signal with fundamental period Tj seconds, j = 1,2…N.
+
+To determine whether x(t) is periodic, form the ratios   T1 / Tj, j=2,…N.  If every one of the ratios is a rational number, then x(t) is periodic.  Otherwise, it is not periodic.
+
+If x(t) is periodic, we determine its fundamental period as below:
+
+    1. Convert the ratios T1 / Tj, j = 2,…N to a ratio of integers, with common factors between numerator and denominator canceled out.  Now the ratios will be of the form Nj / Dj , for j=2,…N.
+    2. Find the least common multiple (LCM) of the Dj ‘s.  Let this number be K.
+    3. The fundamental period of x(t), T,  is then given by
+
+T = K T1 seconds
+
+## Autocorrelation
+
+Ref https://se.mathworks.com/help/signal/ug/find-periodicity-using-autocorrelation.html
+
+## Frequency analysis
+
+Ref https://se.mathworks.com/help/signal/ug/find-periodicity-using-frequency-analysis.html
+
+## Other
+
+* https://discourse.julialang.org/t/estimating-time-periods-of-oscillators/108791
+* https://docs.juliahub.com/PeriodicSystems/p3QvU/0.7.0/
+* https://docs.juliadsp.org/stable/estimation/
 
 # References
 

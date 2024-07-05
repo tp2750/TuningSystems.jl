@@ -32,6 +32,13 @@ DataFrame(tet12)
 ``` julia
 using TuningSystems
 play(sound.(tone.(note.(split("C C# D D# E F F# G G# A A# B C5")), tuning = equal_tempered(12), root_number=60)))
+play(sound(tone.(note.(split("C C# D D# E F F# G G# A A# B C5")), tuning = equal_tempered(12), root_number=60)), bpm=30)
+```
+
+``` julia
+using TuningSystems
+using Plots
+plot(sound(tone.(note.(split("C C# D D# E F F# G G# A A# B C5")), tuning = equal_tempered(12), root_number=60)), xlim=(0,1/10))
 ```
 
 # Questions
@@ -47,6 +54,13 @@ Harmonic intervals:
 * 3:2 Fifth
 
 TODO: Play
+
+``` julia
+oct = "C4 C5"
+fifth = "C G"
+play(s.([s.(tns(oct)); s(tns(oct))]))
+play(s.([s.(tns(fifth)); s(tns(fifth))]))
+```
 
 # Circle of Fifth
 
@@ -97,6 +111,50 @@ Equivalence classes of the octave.
  1.0136432647705078
 ```
 
+
+``` julia
+julia> [(pitch_class.((3//2)^x)) for x in 0:12]
+13-element Vector{Rational{Int64}}:
+       1
+      3//2
+      9//8
+     27//16
+     81//64
+    243//128
+    729//512
+   2187//2048
+   6561//4096
+  19683//16384
+  59049//32768
+ 177147//131072
+ 531441//524288
+```
+
+
+# Pythagoras comma
+
+``` julia
+julia> pitch_class((3//2)^12) .* (1, 1.)
+(531441//524288, 1.0136432647705078)
+```
+
+``` julia
+julia> [1, pitch_class((3/2)^12)]*440
+2-element Vector{Float64}:
+ 440.0
+ 446.00303649902344
+```
+
+
+``` julia
+play(s(t.([1, pitch_class((3/2)^12)]*440)), bpm=30)
+plot(s(t.([1, pitch_class((3/2)^12)]*440)), xlim=(0,1/6))
+```
+
+![Pythagorean comma at 440 Hz](img/beat_pyth-comma_440.png)
+
+
+
 # Cents
 
 Divide the octave in 1200 logarithmically
@@ -121,7 +179,7 @@ cents(x) = log(x)/log(2^(1/1200))
    23.46001038464944
 ```
 
-* Overshoots about 2 cents each time
+* Overshoots about 2 cents (1.955) each time
 
 # Actual pythagorean
 
@@ -148,6 +206,13 @@ julia> DataFrame(pythagorean)
 ```
 
 This gives 12 almost equally spaced tones using fractions.
+
+Construction:
+
+``` julia
+rename!(cat_tunings([geometric_tuning(3//2, 6), geometric_tuning(2//3, 5)]), "pythagorean")
+
+```
 
 # Just intonation
 

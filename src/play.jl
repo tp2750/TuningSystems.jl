@@ -35,7 +35,7 @@ function tone(n::Note; tuning = missing, root_number = 60, root_frequency = 261.
     scaling = tuning.scalings[scale_idx]
     octave = pitch_diff >=0 ? div(pitch_diff, octave_length) : div(pitch_diff, octave_length, RoundFromZero) 
     freq = (root_frequency * scaling)*2.0^octave
-    @info "pitch=$(n.pitch), octave =$octave, scale index=$scale_idx, scaling=$scaling, frequency=$freq"
+    @debug "pitch=$(n.pitch), octave=$octave, scale index=$scale_idx, scaling=$scaling, frequency=$freq"
     Tone(freq, 0, n.duration, n.volume)
 end
 struct Sound ## TODO: Store Vector of tones
@@ -51,11 +51,11 @@ end
 function sound(v::Vector{Sound}) ## Combine
     ## plot(s([s(400) s(440) s(450)]), xlim=(0,1/10))
     freqs = map(x-> x.frequency, v)
-    min_diff = minimum(diff(freqs))
-    min_diff = min_diff == 0 ? first(unique(freqs)) : min_diff
+    freq = 1 / simple_period(freqs, frequency=true) 
     duration = maximum(map(x -> x.duration, v)) ## assert all equal?
-    Sound(x -> sum(map(t -> t.func(x), v)), min_diff, duration) ## mean?
+    Sound(x -> sum(map(t -> t.func(x), v)), freq, duration) ## mean?
 end
+sound(s::Sound) = s
 
 n = note
 t = tone
