@@ -1,16 +1,16 @@
 struct TuningSystem{T}
     steps::Int
     scalings::Vector{T}
-    name::Symbol
+    name::String
     names::Vector{String}
 end
 
 import Base.length
 Base.length(t::TuningSystem) = length(t.scalings)
 
-tuning(l::Int,v::Vector{T}, n::Symbol, s::Vector{String}) where T <: Number = TuningSystem(l,v,n,s)
-tuning(v::Vector{T}, n::Symbol, s::Vector{String}) where T <: Number = TuningSystem(length(v),v,n,s)
-tuning(v::Vector{T}, n::Symbol) where T <: Number = TuningSystem(length(v), v, n, string.(v))
+tuning(l::Int,v::Vector{T}, n::String, s::Vector{String}) where T <: Number = TuningSystem(l,v,n,s)
+tuning(v::Vector{T}, n::String, s::Vector{String}) where T <: Number = TuningSystem(length(v),v,n,s)
+tuning(v::Vector{T}, n::String) where T <: Number = TuningSystem(length(v), v, n, string.(v))
 tuning(v::Vector{T}) where T <: Number = TuningSystem(length(v), v, :tuning, string.(v))
 
 function equal_tempered(n) ## n TET n Tone Equal Temperement. n EDO Even Divisions of Octave
@@ -18,18 +18,18 @@ function equal_tempered(n) ## n TET n Tone Equal Temperement. n EDO Even Divisio
     if n == 12
         names = ["C","C#","D", "D#", "E", "F", "F#", "G", "G#", "A", "A#","B"]
     else
-        names = string(Int(round(cents.(scalings))))
+        names = string.(Int.(round.(cents.(scalings))))
     end
-    tuning(n, scalings, string(n," TET"), names)
+    tuning(n, scalings, string(n,"TET"), names)
 end
 
-tet12 = tuning([(2^(1/12))^x for x in 0:11],:tet12, ["C","C#","D", "D#", "E", "F", "F#", "G", "G#", "A", "A#","B"])
-pythagorean13 = tuning(unique(sort([pitch_class.([(3//2)^x for x in 0:6]); pitch_class.([(2//3)^x for x in 0:6])])),:pyth13)
-pythagorean = tuning(unique(sort([pitch_class.([(3//2)^x for x in 0:6]); pitch_class.([(2//3)^x for x in 0:5])])),:pythagorean) ##  We usually remove the diminished 5th, https://johncarlosbaez.wordpress.com/2023/10/07/pythagorean-tuning/
-pyth2 = tuning(pitch_class.([(3//2)^x for x in -6:6]),:pyth_sym)
+tet12 = tuning([(2^(1/12))^x for x in 0:11],"12 TET", ["C","C#","D", "D#", "E", "F", "F#", "G", "G#", "A", "A#","B"])
+pythagorean13 = tuning(unique(sort([pitch_class.([(3//2)^x for x in 0:6]); pitch_class.([(2//3)^x for x in 0:6])])),"Pyth13")
+pythagorean = tuning(unique(sort([pitch_class.([(3//2)^x for x in 0:6]); pitch_class.([(2//3)^x for x in 0:5])])),"Pythagorean") ##  We usually remove the diminished 5th, https://johncarlosbaez.wordpress.com/2023/10/07/pythagorean-tuning/
+pyth2 = tuning(pitch_class.([(3//2)^x for x in -6:6]),"Pyth sym") ## Symmetric pythagorean
 
-just13 = tuning(sort([1, 16//15, 9//8, 6//5, 5//4, 4//3, 64//45, 45//32, 3//2, 8//5, 5//3, 16//9, 15//8]), :just13)
-just = tuning([1, 16//15, 9//8, 6//5, 5//4, 4//3,  45//32, 3//2, 8//5, 5//3, 16//9, 15//8], :just)
+just13 = tuning(sort([1, 16//15, 9//8, 6//5, 5//4, 4//3, 64//45, 45//32, 3//2, 8//5, 5//3, 16//9, 15//8]), "Just13")
+just = tuning([1, 16//15, 9//8, 6//5, 5//4, 4//3,  45//32, 3//2, 8//5, 5//3, 16//9, 15//8], "Just")
 
 
 
@@ -42,11 +42,11 @@ function DataFrame(t::TuningSystem)
 end
 
 function harmonics(n::Int)
-    tuning(unique(sort(pitch_class.(1//1:n))), Symbol(string("harm",n)))
+    tuning(unique(sort(pitch_class.(1//1:n))), string("harm",n))
 end
 
 function subharmonics(n::Int)
-    tuning(unique(sort(pitch_class.(1//1 ./(1:n)))), Symbol(string("subharm",n)))
+    tuning(unique(sort(pitch_class.(1//1 ./(1:n)))), string("subharm",n))
 end
 
 
