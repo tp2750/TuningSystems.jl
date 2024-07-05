@@ -29,7 +29,10 @@ DataFrame(tet12)
 
 ```
 
-TODO: Play
+``` julia
+using TuningSystems
+play(sound.(tone.(note.(split("C C# D D# E F F# G G# A A# B C5")), tuning = equal_tempered(12), root_number=60)))
+```
 
 # Questions
 

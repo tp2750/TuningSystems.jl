@@ -30,10 +30,12 @@ function tone(n::Note; tuning = missing, root_number = 60, root_frequency = 261.
         end
     end
     octave_length = length(tuning)
-    scale_idx = mod(n.pitch - root_number, octave_length) + 1
+    pitch_diff = n.pitch - root_number
+    scale_idx = mod(pitch_diff, octave_length) + 1    
     scaling = tuning.scalings[scale_idx]
-    freq = root_frequency * scaling
-    @info "scale index=$scale_idx, scaling=$scaling, frequency=$freq"
+    octave = pitch_diff >=0 ? div(pitch_diff, octave_length) : div(pitch_diff, octave_length, RoundFromZero) 
+    freq = (root_frequency * scaling)*2.0^octave
+    @info "pitch=$(n.pitch), octave =$octave, scale index=$scale_idx, scaling=$scaling, frequency=$freq"
     Tone(freq, 0, n.duration, n.volume)
 end
 struct Sound ## TODO: Store Vector of tones
