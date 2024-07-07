@@ -27,7 +27,7 @@ function geometric_tuning(ratio, steps; name=missing)
     if ismissing(name)
         name = string(steps,"step",ratio)
     end
-    tuning(sort(pitch_class.([(ratio)^x for x in 0:(steps)])), name)
+    tuning(sort(pitch_class.([(ratio)^x for x in 0:(steps-1)])), name)
 end
 
 import Base.vcat
@@ -40,6 +40,7 @@ function cat_tunings(t::Vector{T}) where T <: TuningSystem
     tuning(scales[perm], name, names[perm])
 end
 
+using DataFrames
 import DataFrames.rename!
 function DataFrames.rename!(t::TuningSystem, name)
     TuningSystem(
@@ -50,7 +51,7 @@ function DataFrames.rename!(t::TuningSystem, name)
     )
 end
 
-edo12 = tet12 = equal_tempered(12) ## tuning([(2^(1/12))^x for x in 0:11],"12 TET", ["C","C#","D", "D#", "E", "F", "F#", "G", "G#", "A", "A#","B"])
+et12 = tet12 = equal_tempered(12) ## tuning([(2^(1/12))^x for x in 0:11],"12 TET", ["C","C#","D", "D#", "E", "F", "F#", "G", "G#", "A", "A#","B"])
 pythagorean13 = tuning(unique(sort([pitch_class.([(3//2)^x for x in 0:6]); pitch_class.([(2//3)^x for x in 0:6])])),"Pyth13")
 pythagorean = tuning(unique(sort([pitch_class.([(3//2)^x for x in 0:6]); pitch_class.([(2//3)^x for x in 0:5])])),"Pythagorean") ##  We usually remove the diminished 5th, https://johncarlosbaez.wordpress.com/2023/10/07/pythagorean-tuning/
 pyth2 = tuning(pitch_class.([(3//2)^x for x in -6:6]),"Pyth sym") ## Symmetric pythagorean
@@ -60,10 +61,9 @@ just = tuning([1, 16//15, 9//8, 6//5, 5//4, 4//3,  45//32, 3//2, 8//5, 5//3, 16/
 
 
 
-using DataFrames
 import DataFrames.DataFrame
 function DataFrame(t::TuningSystem)
-    df = DataFrame(name = t.names, cents = cents.(t.scalings), diff_cents =  round.(cents_diff.(t.scalings), digits=2))    
+    df = DataFrame(name = t.names, scalings = t.scalings*1.0, cents = cents.(t.scalings), diff_cents =  round.(cents_diff.(t.scalings), digits=2))    
     rename!(df, string(t.name) .*("_".*names(df)))
     df
 end

@@ -89,10 +89,9 @@ end
         s: Sound. Sample and play
         s: Vector{Sound}. Sample, concatenate and play
 """
-function play(s; bpm=60, samplerate = 44100) ## TODO. Add rescaling option to Rescale to max 1. In general add "mastering"
-    tf = tempname()
-    save_wav(tf, s; bpm, samplerate)
-    wavplay(tf)
+function play(s; bpm=60, samplerate = 44100, file = tempname()) ## TODO. Add rescaling option to Rescale to max 1. In general add "mastering"
+    save_wav(file, s; bpm, samplerate)
+    wavplay(file)
 end
 # function play(s::Sound; bpm=60, samplerate = 44100) ## TODO. Add rescaling option to Rescale to max 1. In general add "mastering"
 #     tf = tempname()
