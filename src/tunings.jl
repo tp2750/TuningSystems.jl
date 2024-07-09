@@ -1,3 +1,15 @@
+"""
+    TuningSystem{T}
+
+Data structure for a tuning system.
+A tuning system is defined by a vector of `scalings` of the type `T` (probably `<: Number`).
+The scalings are frequency rations within the octave of the pitches of the tones in the octave.
+It also includes `names` of each scaling.
+In case of the 12 tone equal temperement, it could be the names of the notes: C, C#, D, D#, E, ..., B.
+It also includes a name of the tuning (used for plotting etc).
+
+Preferably use the constructor function [`tuning`](@ref ) to construct it.
+"""
 struct TuningSystem{T}
     steps::Int
     scalings::Vector{T}
@@ -8,11 +20,39 @@ end
 import Base.length
 Base.length(t::TuningSystem) = length(t.scalings)
 
+"""
+     tuning(v::Vector{T}, [n::String], [s::Vector{String}]) where T <: Number -> TuningSystem
+
+Construct a [`TuningSystem`](@ref).
+
+## Arguments
+- `v::Vector`: The vector of scaings defining the function.
+- `n::String`: The name of the tuning system. Defaults to "tuning"
+- `s::Vector{String}`: The names of the scalings. Defaults to `string.v()`
+
+"""
 tuning(l::Int,v::Vector{T}, n::String, s::Vector{String}) where T <: Number = TuningSystem(l,v,n,s)
 tuning(v::Vector{T}, n::String, s::Vector{String}) where T <: Number = TuningSystem(length(v),v,n,s)
 tuning(v::Vector{T}, n::String) where T <: Number = TuningSystem(length(v), v, n, string.(v))
 tuning(v::Vector{T}) where T <: Number = TuningSystem(length(v), v, :tuning, string.(v))
 
+"""
+    equal_tempered(n)
+
+Constructs an equal tempered tuning of length `n`.
+
+If the length `n` is 12, the names of the scalings are set to the standard names of the notes: "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B".
+
+The `scalings` of and equal tempered scale of length `n` divides the octave evenly on a log scale.
+This means the ratio between successive scalings are `2^(1/n)`.
+
+So the vector of scalings is:
+
+``` julia
+    scalings = [(2^(1/n))^x for x in 0:(n-1)]
+```
+
+"""
 function equal_tempered(n) ## n TET n Tone Equal Temperement. n EDO Even Divisions of Octave
     scalings = [(2^(1/n))^x for x in 0:(n-1)]
     if n == 12
