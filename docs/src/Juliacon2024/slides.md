@@ -382,7 +382,8 @@ The first 5 hamonics give the major triad!
 
 
 ``` julia
-play(s(t.([pitch_class.(x) for x in 1//1:6//1]*440)), bpm=30, file = "docs/src/wav/6-harmonics.wav")
+play(s(t.([x for x in 1//1:6//1]*440)), bpm=30, file = "docs/src/wav/6-harmonics.wav")
+play(s(t.([pitch_class.(x) for x in 1//1:6//1]*440)), bpm=30, file = "docs/src/wav/6-harmonics_fold.wav")
 play(s(t.([1, 3/2, 5/4]*440)), bpm=30, file = "docs/src/wav/harmonic-triad.wav")
 ```
 
@@ -437,6 +438,48 @@ The subharmonics only give us 3 extra just (total 7 + 2 close)
 Harmonics avoid: Tritonus (600 cents, F#), Major Sixth (5//3, A)
 
 ![Harmonics 2](img/harmonics-2.png)
+
+## Just and Harmonics:
+
+| Note | Just  | Harm       | Sub Harm  |
+| C    | 1     | 1          | 1         |
+| C#   | 16/15 |            | 15: 16/15 |
+| D    | 9/8   | 9: 9/8     |           |
+| *D#  | 6/5   | 27: 32/27* |           |
+| E    | 5/4   | 5: 5/4     |           |
+| F    | 4/3   |            | 3: 4/3    |
+| F#   | 45/32 | 45: 45/32  |           |
+| G    | 3/2   | 3: 3/2     |           |
+| G#   | 8/5   |            | 5: 8/5    |
+| *A   | 5/3   | 27: 27/16* |           |
+| A#   | 16/9  |            | 9: 16/9   |
+| B    | 15/8  | 15: 15/8   |           |
+
+
+``` julia
+using TuningSystems
+using Plots
+plot(equal_tempered(12))
+plot!(just)
+hline!([0,400,700], label="I")
+plot!(harmonics(32))
+plot!(subharmonics(32))
+```
+
+Get it using FlixJoins
+
+``` julia
+using FlexiJoins
+just_df = rename!(DataFrame(just), :Just_cents => :cents)
+hsh64 = tuning(sort(unique([pitch_class.(collect(1:45)); pitch_class.(1 ./collect(1:45))])), "hsh64")
+hsh64_df = rename!(DataFrame(hsh64), :hsh64_cents => :cents)
+leftjoin(just_df, hsh64_df, on=:cents)
+```
+
+innerjoin((M1=measurements, M2=measurements), by_distance(:time, Euclidean(), <=(3)))
+
+leftjoin((just_df, hsh64_df), by_key(:cents) & distance(:cents, Euclidean(), <=(3)))
+
 
 
 # Playing Tunings

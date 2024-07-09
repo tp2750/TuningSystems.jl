@@ -94,3 +94,14 @@ play(s(tns("C E G",tuning=just)), bpm=20)
 ```@autodocs
 Modules = [TuningSystems]
 ```
+# Workshop!
+
+## TuningSystems.jl
+
+```@docs
+TuningSystems
+```
+
+See the [Tutorial](@ref tutorial)
+for how to use this package.
+

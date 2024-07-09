@@ -1,7 +1,13 @@
+cd(@__DIR__)
+using Pkg
+Pkg.activate("."); Pkg.instantiate()
 using TuningSystems
 using Documenter
+using Literate
 
 DocMeta.setdocmeta!(TuningSystems, :DocTestSetup, :(using TuningSystems); recursive=true)
+
+Literate.markdown("./src/tutorial.jl", "./src")
 
 makedocs(;
     modules=[TuningSystems],
@@ -13,7 +19,9 @@ makedocs(;
         assets=String[],
     ),
     pages=[
-        "Home" => "index.md",
+#        "Home" => "index.md",
+        "Tutorial" => "tutorial.md",
+#        "API" => "api.md",
     ],
 )
 
