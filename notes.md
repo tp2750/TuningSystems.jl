@@ -196,3 +196,9 @@ Ref https://se.mathworks.com/help/signal/ug/find-periodicity-using-frequency-ana
   by Jeffrey A Fessler https://web.eecs.umich.edu/~fessler/
   https://web.eecs.umich.edu/~fessler/course/
   https://www.cambridge.org/highereducation/books/linear-algebra-for-data-science-machine-learning-and-signal-processing/1D558680AF26ED577DBD9C4B5F1D0FED#overview
+
+## Beat frequencies
+https://en.wikipedia.org/wiki/Envelope_(waves) has this formula (soimplified)
+  sin(2pi(f+df)t) + sin(2pi(f-df)t) ~ 2cos(2pi(df)t) * sin(2pi(f)t)
+
+So the beat frequency is half the difference between the 2 tones.
